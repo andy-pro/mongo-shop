@@ -1,0 +1,19 @@
+/* === users list === */
+
+.admin-panel a {
+  font-size: 1.2em;
+  color: #34d;
+}
+.admin-panel__aside {
+  /*min-width: 90px;*/
+  padding-right: 20px;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+.admin-panel__list {
+  vertical-align: top;
+  box-sizing: border-box;
+}
+.admin-panel__list li {
+  margin: 10px 20px 0 0;
+}

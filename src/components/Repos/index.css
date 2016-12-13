@@ -1,0 +1,47 @@
+.repos {
+  background-color: white;
+  position: absolute;
+  padding: 5px 20px 20px;
+  font-size: 13px;
+  box-shadow: 0px 0px 10px rgba(40,80,255,0.4) inset;
+  z-index: 10;
+}
+.repos__title {
+  text-align: center;
+  color: #666;
+  margin: 8px 0;
+}
+.repos__table td {
+  padding: 2px 10px;
+}
+.repos__slot {
+  max-height: 155px;
+  overflow-y: auto;
+}
+.repos__name {
+  font-weight: bold;
+  color: #555;
+}
+.repos__lang {
+  color: #468;
+  font-style: italic;
+}
+.repos__date {
+  font-size: 11px;
+  font-family: monospace;
+}
+
+.repos-enter {
+  opacity: 0.01;
+}
+.repos-enter.repos-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.repos-leave {
+  opacity: 1;
+}
+.repos-leave.repos-leave-active {
+  opacity: 0.01;
+  transition: opacity 500ms ease-in;
+}

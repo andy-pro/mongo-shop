@@ -1,0 +1,36 @@
+.purchases__table {
+  text-align: left;
+  /*table-layout: fixed;*/
+}
+.purchases__titlecol {
+  width: 40%;
+}
+.purchases__costcol {
+  width: 15%;
+}
+.purchases__datecol {
+  /*width: 40%;*/
+  overflow: hidden;
+  /*white-space: nowrap;*/
+  white-space: pre-line;
+}
+.purchases__lastcol {
+  text-align: right;
+  width: 42px;
+}
+.purchases__table tr {
+  border-bottom: 1px solid #ddd;
+}
+.purchases__table td {
+/**/
+}
+.purchases__item {
+  font: 14px monospace;
+}
+.purchases__deleted {
+  color: red;
+  font-weight: bolder;
+}
+.purchases__undo {
+  float: right;
+}

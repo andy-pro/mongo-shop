@@ -1,0 +1,24 @@
+.close {
+  font: bold 20px sans-serif;
+  opacity: 0.4;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 15px;
+  width: 16px;
+  height: 15px;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+.close:after {
+  content: '\D7';
+}
+.close:hover {
+  opacity: 0.6;
+  /*background-color: red;*/
+  border-color: #999;
+}

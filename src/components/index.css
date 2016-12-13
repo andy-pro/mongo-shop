@@ -1,0 +1,81 @@
+.app {
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 800px;
+  overflow: hidden;
+}
+.app__title {
+  border-bottom: 1px solid #ddd;
+}
+section {
+  margin-bottom: 10px;
+  /*padding-bottom: 10px*/
+}
+button {
+  cursor: pointer;
+}
+input {
+  box-sizing: border-box;
+}
+
+.app__admin-panel, .app__main-panel {
+  /*background-color: #eee;*/
+  /*border: 1px solid #ddd;*/
+  /*padding: 0 10px 10px;*/
+}
+
+.app__main-panel {
+  border-style: solid;
+  border-color: #ddd;
+  border-width: 0 0 0 1px;
+  padding-left: 25px;
+}
+
+/* forms */
+.flex-form > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 2px 0;
+}
+.flex-form .form-control-group {
+  flex-grow: 1;
+}
+.form-control-input {
+  width: 95%;
+}
+.form-control-input-full {
+  width: 100%;
+}
+.form-control-add-btn {
+  width: 22px;
+}
+/* end of forms */
+
+
+@media screen and (max-width: 639px) {
+
+  .app__admin-panel, .app__main-panel {
+    float: none;
+    width: auto;
+  }
+  .app__main-panel {
+    border-width: 1px 0 0 0;
+    padding-left: 0;
+  }
+
+  .admin-panel__aside, .admin-panel__list, .admin-panel__list li {
+    display: inline-block;
+
+    /*float: left;*/
+  }
+
+  .admin-panel__aside {
+    width: 30%;
+  }
+
+  .admin-panel__list {
+    width: 70%;
+  }
+
+}
