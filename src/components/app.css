@@ -7,23 +7,11 @@
 .app__title {
   border-bottom: 1px solid #ddd;
 }
-section {
-  margin-bottom: 10px;
-  /*padding-bottom: 10px*/
-}
-button {
-  cursor: pointer;
-}
-input {
-  box-sizing: border-box;
-}
-
 .app__admin-panel, .app__main-panel {
   /*background-color: #eee;*/
   /*border: 1px solid #ddd;*/
   /*padding: 0 10px 10px;*/
 }
-
 .app__main-panel {
   border-style: solid;
   border-color: #ddd;
@@ -32,26 +20,39 @@ input {
 }
 
 /* forms */
-.flex-form > div {
+.flex {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin: 2px 0;
+  /*padding-bottom: 5px;*/
+  /*border-bottom: 1px solid #bbb;*/
+  /*margin-bottom: 10px;*/
 }
-.flex-form .form-control-group {
-  flex-grow: 1;
+[type=checkbox] {
+  position: relative;
+  top: 2px;
+  left: -4px;
 }
-.form-control-input {
-  width: 95%;
-}
-.form-control-input-full {
+[type=text], [type=number] {
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
   width: 100%;
 }
-.form-control-add-btn {
+
+table .sm-btn {
+  text-align: right;
+  width: 32px;
+}
+
+.form-control-del-btn {
+  width: 100%;
+  color: red;
+  font-weight: bold;
+}
+.form-control-sm-btn {
   width: 22px;
 }
 /* end of forms */
-
 
 @media screen and (max-width: 639px) {
 

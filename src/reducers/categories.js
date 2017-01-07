@@ -8,6 +8,8 @@ export default function user(state=[], action) {
       return action.payload[0].categories || []
     case types.CATEGORY_ADDED:
       return action.payload.categories
+    case types.CATEGORY_UPDATED:
+      return action.payload.categories
     default:
       return state;
   }

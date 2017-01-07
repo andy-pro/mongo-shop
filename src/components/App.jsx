@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
-import './index.css'
+import './app.css'
+import './close-btn'
 
 import { connect } from 'react-redux'
 
@@ -12,16 +13,23 @@ import MainPanel from './MainPanel'
 const ADMIN = false;
 
 class App extends Component {
-
+  /*
+    set main view in reducers/index.js:
+      const views = [types.VIEW_PURCHASES, types.VIEW_CATEGORIES]
+      const preloadedState = {
+        userView: views[0] or views[1]
+      }
+    start app with a given user or with all users (ADMIN mode)
+      Andy  "5856ffa4da7d1f056c935686"
+      Oksy  "5845e1adec910a0db4fb8f01"
+      Yarik "5845e24dec910a0db4fb8f04"
+  */
   componentDidMount() {
-    console.log('set initial from APP');
-    // start app with a given user or with all users (ADMIN mode)
-    // Andy  "584565afec910a0db4fb8ef5"
-    // Oksy  "5845e1adec910a0db4fb8f01"
-    // Yarik "5845e24dec910a0db4fb8f04"
-    this.props.dispatch(actions.getUsers(
-      ADMIN ? '' : "584565afec910a0db4fb8ef5"
-    ))
+    this.props.dispatch(ADMIN ?
+      actions.getUsers()
+      :
+      actions.getUser('5856ffa4da7d1f056c935686')
+    )
   }
 
   render() {

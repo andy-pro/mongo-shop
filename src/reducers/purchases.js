@@ -1,6 +1,7 @@
 'use strict';
 
 // import update from 'immutability-helper';
+import { pushItem, updateItemById, deleteItemById } from '../utils';
 
 import types from '../constants';
 
@@ -11,22 +12,14 @@ export default function user(state=[], action) {
     case types.PURCHASES_LOADED:
       return action.payload
     case types.PURCHASE_ADDED:
-      return state.concat(action.payload)
+      return pushItem(state, action.payload)
     case types.PRE_DEL_PURCHASE:
-      return update(state, action.payload, '_id', {hidden: true});
+      return updateItemById(state, action.payload, {hidden: true});
     case types.PURCHASE_DELETED:
-      let deleted_id = action.payload._id;
-      return state.filter(item => item._id !== deleted_id)
+      return deleteItemById(state, action.payload._id)
     case types.UNDO_DEL_PURCHASE:
-      return update(state, action.payload, '_id', {hidden: false});
+      return updateItemById(state, action.payload, {hidden: false});
     default:
       return state;
   }
-}
-
-function update(collection, element, key, set) {
-  let value = element[key]
-  return collection.map(item =>
-    item[key] === value ? Object.assign(item, set) : item
-  )
 }

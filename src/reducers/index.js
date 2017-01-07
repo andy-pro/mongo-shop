@@ -26,7 +26,7 @@ import types from '../constants';
 const views = [types.VIEW_PURCHASES, types.VIEW_CATEGORIES]
 
 const preloadedState = {
-  userView: views[1]
+  userView: views[0]
 }
 
 const reducer = combineReducers({

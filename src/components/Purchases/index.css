@@ -1,22 +1,21 @@
+.purchases {
+  min-height: 450px;
+}
 .purchases__table {
   text-align: left;
   /*table-layout: fixed;*/
 }
 .purchases__titlecol {
-  width: 40%;
+  /*width: 65%;*/
 }
 .purchases__costcol {
-  width: 15%;
+  /*width: 12%;*/
 }
 .purchases__datecol {
   /*width: 40%;*/
   overflow: hidden;
   /*white-space: nowrap;*/
   white-space: pre-line;
-}
-.purchases__lastcol {
-  text-align: right;
-  width: 42px;
 }
 .purchases__table tr {
   border-bottom: 1px solid #ddd;
@@ -26,6 +25,11 @@
 }
 .purchases__item {
   font: 14px monospace;
+}
+.purchases__category {
+  font: italic 0.8em Tahoma, sans-serif;
+  color: #339;
+  margin-left: 10px;
 }
 .purchases__deleted {
   color: red;

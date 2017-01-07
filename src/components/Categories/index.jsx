@@ -2,104 +2,116 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import './index.css'
-import '../close-btn'
 
-import { SimpleForm } from '../Forms'
-
+import CategoryMenu from './menu'
+import { removeSpecial, getSlug, findDuplicate } from '../../utils'
 import * as actions from '../../actions'
-import { getElementSize } from '../../utils'
+
+const ROOT_PATH = 'categories'
 
 class Categories extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     showMenu: false
-  //   }
-  // }
 
-  state = {
-    showMenu: false
-  }
-
-  listClick = (event) => {
-    let ref = event.target,
-        path = ref.dataset.path
-    if (path) {
-      this.opts = {
-        event,
-        ref,
-        path: ref.dataset.path,
-        root: this.root
-      }
-      // console.log(e.pageX, e.pageY, this.root.offset);
-      // this.opts = {
-      //   root_height: this.root.offsetHeight
-      // }
-      this.setState({showMenu: true})
-    } else {
-      this.setState({showMenu: false})
+  init = () => {
+    this.category = {
+      userId: this.props.userId
     }
-  }
-  // 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return this.state.showMenu !== nextState.showMenu ||
-  //     this.state.opts !== nextState.opts
-  // }
-
-  onSubmit = (category) => {
-    category.userId = this.props.userId
-    let sub = '',
-        path = this.opts.path
-    if (path && path !== 'root-path') {
-      let pi = path.split(',')
-      sub = pi.reduce((s, i) => s + '.' + i + '.sub', '')
-    }
-    category.path = 'categories' + sub
-    this.props.dispatch(actions.addCategory(category))
-    this.setState({
-      showMenu: false
-    })
+    return { showMenu: false }
   }
 
   onCloseMenu = () =>
+    this.setState(this.init())
+
+  componentWillReceiveProps(nextProps) {
+    this.setState(this.init())
+  }
+
+  state = this.init()
+
+  onClickList = (event) => {
+    let titleEl = event.target,
+        path = titleEl.dataset.path || '',
+        show = Boolean(path);
+    if (show !== this.state.showMenu || path != this.category.path) {
+      Object.assign(this.category, {
+        rootEl: this.refs.rootEl,
+        titleEl,
+        title: titleEl.textContent,
+        path,
+        parentPath: path.replace(/\.\d+$/, ''),
+        isChild: Boolean(path && path !== ROOT_PATH)
+      })
+      console.log('click list', this.category);
+      this.setState({showMenu: show})
+    }
+  }
+
+  submitCategory = (formData, path, parentPath, action) => {
+    // let title = formData.title.replace(/[\/|\&\?<>]/g, '')
+    let title = removeSpecial(formData.title)
+    if (formData.title !== title) {
+      return alert('Unacceptable symbols /\\|?&<>')
+    }
+    let slug = getSlug(title)
+    if (findDuplicate(this.props, slug, parentPath)) {
+      return alert('The same category already exists!')
+    }
+    this.category.path = path
+    this.category.title = title
+    this.category.slug = slug
+    this.props.dispatch(action(this.category))
     this.setState({
       showMenu: false
     })
+  }
+
+  addCategory = formData => {
+    let path = this.category.path + (this.category.isChild ? '.sub' : '')
+    this.submitCategory(
+      formData,
+      path,
+      path,
+      actions.addCategory
+    )
+  }
+
+  renameCategory = formData => {
+    this.submitCategory(
+      formData,
+      this.category.path,
+      this.category.parentPath,
+      actions.updateCategory
+    )
+  }
+
+  delCategory = () => {
+    this.props.dispatch(actions.delCategory(this.category))
+    this.setState({
+      showMenu: false
+    })
+  }
 
   render() {
-
-    console.log('%cCategories render', 'color:#048;font-weight:bold', this.props);
-
+    // console.log('%cCategories render', 'color:#048;font-weight:bold', this.props);
+    let categories = this.props.categories
     return (
       <div className='categories'>
-
-        <div className='categories__list' onClick={this.listClick}
-          ref = {c => this.root = c}>
-          <a href='#' data-path='root-path'>Categories</a>
-          {this.props.categories && createList(this.props.categories)}
+        <div className='categories__list'
+          onClick={this.onClickList}
+          ref='rootEl'>
+          <span data-path={ROOT_PATH}>Categories</span>
+          {categories && createList(categories, ROOT_PATH)}
         </div>
-
-        {this.state.showMenu && (
-          <div className='categories__menu'
-            ref={c => c && setMenuPos(c, this.opts)}>
-            <i className='close' onClick={this.onCloseMenu}></i>
-            <SimpleForm
-              label={(this.opts.path && this.opts.path !== 'root-path') ? 'New subcategory' : 'New Category'}
-              onSubmit={this.onSubmit}
-            />
-          {/*this.opts.path && (
-              <SimpleForm
-                label={}
-                onSubmit={this.onSubmitSub}
-              />
-            )*/}
-            <div>path: {this.opts.path}</div>
-          </div>
-        )}
-
+        {this.state.showMenu &&
+          <CategoryMenu
+            category={this.category}
+            onAdd={this.addCategory}
+            onRename={this.renameCategory}
+            onDelete={this.delCategory}
+            onClose={this.onCloseMenu}
+          />
+        }
       </div>
     )
-
   }
 
 }
@@ -111,32 +123,15 @@ Categories = connect(
 export default Categories
 
 
-const setMenuPos = (el, opts) => {
-  let {path, ref} = opts,
-      x = path ? (ref.offsetLeft + ref.offsetWidth) : 0,
-      y = path ? (ref.offsetTop + 10) : 0,
-      h = parseInt(getElementSize(el).height);
-  if ((y + h) > opts.root.offsetHeight) {
-    y -= h;
-  }
-  el.style.left = x + 'px';
-  el.style.top = y + 'px';
-}
-
-const createList = (data, path=[]) => {
-  return (
-    <ul>
-      {data.map((item, i) => {
-        let newpath = path.concat([i])
-        return (
-          <li key={encodeURI(item.title)}>
-            <a href='#' data-path={newpath}>
-              {item.title}
-            </a>
-            {item.sub && createList(item.sub, newpath)}
-          </li>
-        )
-      })}
-    </ul>
-  )
-}
+const createList = (data, _path) =>
+  <ul>
+    {data.map((item, i) => {
+      let path = _path + '.' + i
+      return (
+        <li key={item.slug}>
+          <span data-path={path}>{item.title}</span>
+          {(item.sub && item.sub.length) ? createList(item.sub, path + '.sub') : ''}
+        </li>
+      )
+    })}
+  </ul>

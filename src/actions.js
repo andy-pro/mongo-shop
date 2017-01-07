@@ -1,12 +1,18 @@
 'use strict';
 
-import * as api from './api'
+import * as api from './api';
 import types from './constants';
 
-export const getUsers = id => ({
+export const getUser = id => ({
   type: types.PROMISE,
-  payload: id ? types.USER_LOADED : types.USERS_LOADED,
-  promise: id ? api.getUserData(id) : api.getUsers()
+  payload: types.USER_LOADED,
+  promise: api.getUserData(id)
+})
+
+export const getUsers = () => ({
+  type: types.PROMISE,
+  payload: types.USERS_LOADED,
+  promise: api.getUsers()
 })
 
 export const setUser = (user) => ({
@@ -28,20 +34,20 @@ export const addPurchase = (purchase) => ({
   promise: api.addPurchase(purchase)
 })
 
-export const preDelPurchase = (purchase) => ({
+export const preDelPurchase = (id) => ({
   type: types.PRE_DEL_PURCHASE,
-  payload: purchase
+  payload: id
 })
 
-export const delPurchase = (purchase) => ({
+export const delPurchase = (id) => ({
   type: types.PROMISE,
   payload: types.PURCHASE_DELETED,
-  promise: api.delPurchase(purchase)
+  promise: api.delPurchase(id)
 })
 
-export const undoDelPurchase = (purchase) => ({
+export const undoDelPurchase = (id) => ({
   type: types.UNDO_DEL_PURCHASE,
-  payload: purchase
+  payload: id
 })
 
 
@@ -50,6 +56,18 @@ export const addCategory = (category) => ({
   type: types.PROMISE,
   payload: types.CATEGORY_ADDED,
   promise: api.addCategory(category)
+})
+
+export const updateCategory = (category) => ({
+  type: types.PROMISE,
+  payload: types.CATEGORY_UPDATED,
+  promise: api.updateCategory(category)
+})
+
+export const delCategory = (category) => ({
+  type: types.PROMISE,
+  payload: types.CATEGORY_UPDATED,
+  promise: api.delCategory(category)
 })
 
 

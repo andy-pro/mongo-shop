@@ -21,6 +21,7 @@ export default keyMirror({
   PURCHASES_LOADED:  null,
   PURCHASE_ADDED:    null,
   CATEGORY_ADDED:    null,
+  CATEGORY_UPDATED:  null,
   PRE_DEL_PURCHASE:  null,
   PURCHASE_DELETED:  null,
   UNDO_DEL_PURCHASE: null,

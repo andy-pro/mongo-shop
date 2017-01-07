@@ -1,4 +1,7 @@
 import React from 'react'
+// import PurchaseAutosuggest from '../Forms/PurchaseAutosuggest'
+import AutosuggestInput from '../Forms/AutosuggestInput'
+
 
 const preset_txt = {
   className: 'form-control-input',
@@ -19,7 +22,14 @@ const preset_float = {
   required: true
 }
 
-export const PurchaseForm = ({ onSubmit }) => {
+const formData = {};
+
+const formChange = (data) => {
+  Object.assign(formData, data)
+  console.log('form data', formData);
+}
+
+export const PurchaseForm = ({ categories, onSubmit }) => {
 
   // console.log('Purchase Form render');
   let $title, $cost, $category
@@ -28,7 +38,8 @@ export const PurchaseForm = ({ onSubmit }) => {
       onSubmit={e => {
         e.preventDefault()
         onSubmit({
-          title: $title.value,
+          // title: $title.value,
+          title: formData.title,
           cost: $cost.value
         })
         $title.value = ''
@@ -37,6 +48,12 @@ export const PurchaseForm = ({ onSubmit }) => {
       }}>
 
       <div>
+        <AutosuggestInput
+          onChange={formChange}
+          inputList={categories}
+          placeholder='Type a purchase title'
+
+        />
         <Input
           label={'Title'}
           attrs={preset_txt}
@@ -61,36 +78,83 @@ export const PurchaseForm = ({ onSubmit }) => {
   )
 }
 
+export const RenameForm = ({ title, onSubmit }) => {
+  let $title, $preserve
+  return (
+    <form onSubmit={e => {
+        e.preventDefault()
+        let newTitle = $title.value
+        if (newTitle !== title) {
+          onSubmit({
+            title: newTitle,
+            preserve: $preserve.checked
+          })
+        }
+      }}>
+      <div>
+        <Input
+          label={'Rename'}
+          attrs={preset_txt}
+          $ref={c => {
+            if (c) {
+              c.value = title;
+            }
+            $title = c
+          }}
+          value={title}
+        />
+        <RenameBtn />
+      </div>
+      <div>
+        <label>
+          Preserve references
+          <input
+            ref={c => $preserve = c}
+            type='checkbox'/>
+        </label>
+      </div>
+    </form>
+  )
+}
+
 export const SimpleForm = ({ label, onSubmit }) => {
   let $input
   return (
-    <form className='flex-form'
+    <form className='inline-form'
       onSubmit={e => {
         e.preventDefault()
         onSubmit({
           title: $input.value,
         })
-        $input.value = ''
+        // $input.value = ''
       }}>
-      <div>
-        <Input
-          label={label}
-          attrs={preset_txt}
-          $ref={c => {
+        <input className='mr-10'
+          placeholder={label}
+          type='text'
+          required={true}
+          ref={c => {
             $input = c
             if (c) c.focus()
           }}
         />
-        <AddSubmitBtn />
-      </div>
+        <button className='form-control-sm-btn' type="submit">
+          +
+        </button>
     </form>
   )
 }
 
 const AddSubmitBtn = () =>
   <span>
-    <button className='form-control-add-btn' type="submit">
+    <button className='form-control-sm-btn' type="submit">
       +
+    </button>
+  </span>
+
+const RenameBtn = () =>
+  <span>
+    <button className='form-control-btn' type="submit">
+      Rename
     </button>
   </span>
 

@@ -41,7 +41,8 @@ let MainPanel = ({ userData, userView, toggleUserView }) => {
       { VIEW_PURCHASES ?
         <Purchases userId={userId} />
         :
-        <Categories userId={userId} /> }
+        <Categories userId={userId} />
+      }
 
     </section>
   )

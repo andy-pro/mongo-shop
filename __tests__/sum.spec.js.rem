@@ -1,0 +1,22 @@
+// test('adds 1 + 2 to equal 3', () => {
+//   // const sum = require('../src/sum');
+//   // console.log('it is sum for 1,2:', sum(1,2));
+//   // expect(sum(1, 2)).toBe(3);
+//   expect(3).toBe(3);
+// });
+
+
+const myBeverage = {
+  delicious: true,
+  sour: false,
+};
+
+describe('my beverage', () => {
+  it('is delicious', () => {
+    expect(myBeverage.delicious).toBeTruthy();
+  });
+
+  it('is not sour', () => {
+    expect(myBeverage.sour).toBeFalsy();
+  });
+});
